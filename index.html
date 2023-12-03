@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domain WHOIS Checker</title>
+<script>
+function checkDomain() {
+    // 获取用户输入的域名和选定的后缀
+    var domainName = document.getElementById("domainName").value;
+    var domainSuffix = document.getElementById("domainSuffix").value;
+
+    // 确保域名不为空
+    if (!domainName) {
+        alert("Please enter a domain name.");
+        return;
+    }
+
+    // 前端向后端发送请求
+    fetch(`http://localhost:5000/check_domain?domain=${domainName}&suffix=${domainSuffix}`)
+        .then(response => response.json())
+        .then(data => {
+            // 显示结果
+            document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("result").innerText = "An error occurred while fetching the domain information.";
+        });
+}
+</script>
 </head>
 <body>
-    <h1>GeFei</h1>
+
+<h1>Domain WHOIS Checker</h1>
+
+<div>
+    <label for="domainName">Domain Name:</label>
+    <input type="text" id="domainName" placeholder="Enter domain name">
+    <label for="domainSuffix">Suffix:</label>
+    <select id="domainSuffix">
+        <option value="com">.com</option>
+        <option value="net">.net</option>
+        <option value="org">.org</option>
+        <option value="me">.me</option>
+        <option value="xyz">.xyz</option>
+        <option value="info">.info</option>
+        <option value="io">.io</option>
+        <option value="co">.co</option>
+        <option value="ai">.ai</option>
+        <option value="biz">.biz</option>
+        <option value="us">.us</option>
+    </select>
+    <button onclick="checkDomain()">Check Domain</button>
+</div>
+
+<pre id="result"></pre>
+
 </body>
 </html>
