@@ -17,7 +17,7 @@ function checkDomain() {
     }
 
     // 前端向后端发送请求
-    fetch(`http://localhost:5000/check_domain?domain=${domainName}&suffix=${domainSuffix}`)
+    fetch(`https://buildarocket.vercel.app/api/whois?domain=${domainName}&suffix=${domainSuffix}`)
         .then(response => response.json())
         .then(data => {
             // 显示结果
