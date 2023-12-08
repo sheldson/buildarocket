@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // 引入 useEffect
 import { useRouter } from 'next/router';
 
 export default function Index() {
   const [domainName, setDomainName] = useState('');
-  // 设置默认后缀为 '.com'
   const [domainSuffix, setDomainSuffix] = useState('com'); // 默认为 .com
   const router = useRouter();
+
+  // 在组件加载到DOM后打印当前路由
+  useEffect(() => {
+    console.log('The current route is:', router.pathname);
+    // 你可以选择添加router.query来打印查询参数
+  }, []); // 空依赖数组，这样console.log只会在组件初次加载时执行一次
 
   const handleCheckDomain = () => {
     if (!domainName) {
