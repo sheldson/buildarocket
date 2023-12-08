@@ -8,9 +8,7 @@ export default function Result() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 确保 domainName 和 suffix 都存在
     if (domainName && suffix) {
-      // 开始 API 调用
       fetch(`/api/whois?domain=${domainName}&suffix=${suffix}`)
         .then((response) => {
           if (!response.ok) {
@@ -28,15 +26,41 @@ export default function Result() {
   return (
     <div>
       <h1>Result Page</h1>
-      {error && <p>Error: {error}</p >}
+      {error && <p>Error: {error}</p>}
       {whoisData ? (
-        <>
-          <p>Domain Name: {whoisData.domain}</p >
-          <p>Suffix: {whoisData.suffix}</p >
-          {/* 这里可以显示更多的 whoisData 信息 */}
-        </>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Domain Name</th>
+                <td>{whoisData.domain}</td>
+              </tr>
+              <tr>
+                <th>Suffix</th>
+                <td>{whoisData.suffix}</td>
+              </tr>
+              <tr>
+                <th>Creation Date</th>
+                <td>{whoisData.creation_datetime}</td>
+              </tr>
+              <tr>
+                <th>Expiry Date</th>
+                <td>{whoisData.expiry_datetime}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{whoisData.available ? 'Available' : 'Not available'}</td>
+              </tr>
+              {/* 添加更多的tr来显示其他信息 */}
+            </tbody>
+          </table>
+          <div>
+            <h3>Whois Information</h3>
+            <pre>{whoisData.info}</pre>
+          </div>
+        </div>
       ) : (
-        <p>Loading...</p >
+        <p>Loading...</p>
       )}
     </div>
   );
